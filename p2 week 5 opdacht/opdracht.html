@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactietest</title>
+
+    <style>
+        #KleurenBlok {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            margin-top: 20px;
+        }
+
+        #StartKnop {
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="StartKnop">Start het spel</button>
+    <div id="KleurenBlok"></div>
+
+    <script>
+        const StartKnop = document.getElementById("StartKnop");
+        const KleurenBlok = document.getElementById("KleurenBlok");
+
+        let startTime;
+        let endTime;
+        let timeoutId;
+
+        StartKnop.addEventListener("click", startGame);
+
+        function startGame() {
+            KleurenBlok.style.backgroundColor = "red";
+
+            const randomTime = Math.random() * 10000;
+
+            timeoutId = setTimeout(() => {
+                KleurenBlok.style.backgroundColor = "green";
+                startTime = new Date().getTime();
+            }, randomTime);
+
+            KleurenBlok.addEventListener("click", endGame);
+        }
+
+        function endGame() {
+            if (KleurenBlok.style.backgroundColor !== "green") {
+                clearTimeout(timeoutId);
+                alert("Je was te vroeg!");
+            } 
+            else {
+                endTime = new Date().getTime();
+                const reactionTime = endTime - startTime;
+                alert(`Je reactietijd was ${reactionTime} milliseconden.`);
+            }
+
+            KleurenBlok.style.backgroundColor = "white";
+            KleurenBlok.removeEventListener("click", endGame);
+        }
+    </script>
+
+</body>
+</html>
